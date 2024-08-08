@@ -39,12 +39,19 @@ export class ShortenService {
     return url;
   }
 
+  // Fetch URL
+  async fetchUrl(uniqueId: string) {
+    const baseUrl = this.configService.get<string>('BASE_URL');
+    const shortUrl = `${baseUrl}/${uniqueId}`;
+    const url = await this.shortenModel.findOne({ shortUrl });
+    return url;
+  }
   // URL Validation
   isURLValid(longUrl: string) {
     const urlPattern: RegExp = /^(http|https):\/\/[^ "]+$/;
     return urlPattern.test(longUrl);
   }
-  // Generate UniqueId 
+  // Generate UniqueId
   generateUniqueId(length: number) {
     const characters =
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
